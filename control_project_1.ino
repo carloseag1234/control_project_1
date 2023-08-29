@@ -72,7 +72,7 @@ void serialEvent() {
       Serial.print (F("Se cambio la velocidad a: "));
       Serial.println(v);
      break;
-    
+
   }
   MENU();
 }
