@@ -1,63 +1,116 @@
 #include <Arduino.h>
 #line 1 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
-#define motorA 5
-#define motorB 6
-int encoderPin1 = 2;
-int encoderPin2 = 3;
-volatile int lastEncoded = 0;
-volatile long encoderValue = 0;
-volatile long correctEncoderValue =0;
- 
-long lastencoderValue = 0;
- 
-int lastMSB = 0;
-int lastLSB = 0;
+const int ENC_A = 6;
+const int ENC_B = 5;
+char op = '0';
+char vel []= {' ',' ',' '};
+const int IN1 = 2;
+const int IN2 = 3;
+const int ENA = 4;
+int v = 300;
 
-#line 14 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+#line 10 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
 void setup();
-#line 27 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+#line 20 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
 void loop();
-#line 43 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
-void updateEncoder();
-#line 14 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+#line 25 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+void serialEvent();
+#line 87 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+void encoder();
+#line 95 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+void MENU();
+#line 10 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
 void setup() {
-   Serial.begin (9600);
-   pinMode(encoderPin1, INPUT);
-   pinMode(encoderPin2, INPUT);
-   digitalWrite(encoderPin1, HIGH); //turn pullup resistor on
-   digitalWrite(encoderPin2, HIGH); //turn pullup resistor on
-   attachInterrupt(0, updateEncoder, CHANGE);
-   attachInterrupt(1, updateEncoder, CHANGE);
-  
-   pinMode(motorA,OUTPUT);
-   pinMode(motorB,OUTPUT);
+  Serial.begin(9600);
+  pinMode(ENC_A, INPUT);
+  pinMode(ENC_B, INPUT);
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(ENA, OUTPUT);
+  MENU();
 }
 
 void loop() {
-   correctEncoderValue = encoderValue/4;
-  
-   Serial.println(correctEncoderValue);
-  
-  if ( 0<=correctEncoderValue && correctEncoderValue < 3000) {
-   analogWrite(motorA,127);
-   digitalWrite(motorB,LOW);
-  } else {
-   analogWrite(motorA,0);
-   digitalWrite(motorB,LOW);
-  }
-   delay(100);
-
+  encoder();
+  delay(3000);
 }
 
-void updateEncoder(){
-  int MSB = digitalRead(encoderPin1); //MSB = most significant bit
-  int LSB = digitalRead(encoderPin2); //LSB = least significant bit
- 
-  int encoded = (MSB << 1) |LSB; //converting the 2 pin value to single number
-  int sum  = (lastEncoded << 2) | encoded; //adding it to the previous encoded value
- 
-  if(sum == 0b1101 || sum == 0b0100 || sum == 0b0010 || sum == 0b1011) encoderValue ++;
-  if(sum == 0b1110 || sum == 0b0111 || sum == 0b0001 || sum == 0b1000) encoderValue --;
- 
-  lastEncoded = encoded; //store this value for next time
+void serialEvent() {
+  delay(20);
+  op = Serial.read();
+
+  while (Serial.available() > 0) {
+    Serial.read(); // Limpieza del buffer serial
+  }
+
+  switch (op) {
+    case '1':
+      digitalWrite(IN1, HIGH);
+      digitalWrite(IN2, LOW);
+      analogWrite(ENA, v);
+      Serial.println();
+      Serial.print(F("Estado: "));
+      Serial.println(F("---Giro Horario---"));
+      break;
+
+    case '2':
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN2, LOW);
+      analogWrite(ENA, 0);
+      Serial.println();
+      Serial.print(F("ESTADO: "));
+      Serial.println(F("---Apagado---"));
+      encoder();
+      break;
+
+    case '3':
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN2, HIGH);
+      analogWrite(ENA, v);
+      Serial.println();
+      Serial.print(F("ESTADO: "));
+      Serial.println(F("---Giro Antihorario---"));
+      break;
+
+    case '4':
+      v = 0;
+      Serial.println();
+      Serial.println(F("CAMBIO DE VELOCIDAD"));
+      Serial.println(F("Ingrese la velocidad en rad/s:"));
+      while (Serial.available() == 0) {;}
+      
+      // Leer la entrada de velocidad hasta que se presione Enter o se llenen 10 caracteres
+      char inputBuffer[10]; // Ajusta el tamaño según tus necesidades
+      size_t bytesRead = Serial.readBytesUntil('\n', inputBuffer, sizeof(inputBuffer) - 1);
+      inputBuffer[bytesRead] = '\0'; // Asegurarse de que la cadena esté terminada correctamente
+      delay(100);
+      while (Serial.available() > 0) { Serial.read(); }
+      
+      v = strtol(inputBuffer, nullptr, 10); // Convertir la cadena a un entero
+      
+      Serial.print(F("Se cambio la velocidad a: "));
+      Serial.println(v);
+      break;
+
+    
+  }
+  MENU();
+}
+
+void encoder() {
+  int a = digitalRead(ENC_A);
+  int b = digitalRead(ENC_B);
+  Serial.print(a * 5);
+  Serial.print("");
+  Serial.println(b * 5);
+}
+
+void MENU() {
+  Serial.println();
+  Serial.println(F("   MENU"));
+  Serial.println(F("Presione una opcion 1-3: "));
+  Serial.println(F("1"));
+  Serial.println(F("2"));
+  Serial.println(F("3"));
+  Serial.println(F("4"));
 }
