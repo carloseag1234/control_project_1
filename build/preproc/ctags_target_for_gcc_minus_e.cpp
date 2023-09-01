@@ -1,12 +1,17 @@
-# 1 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 1 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
 const int ENC_A = 6;
 const int ENC_B = 5;
 char op = '0';
 char vel []= {' ',' ',' '};
+char pos []= {' ',' ',' '};
 const int IN1 = 2;
-const int IN2 = 3;
-const int ENA = 4;
-int v = 300;
+const int IN2 = 4;
+const int ENA = 3;
+int v = 255;
+int p = 0;
+int position;
+int b;
+int a;
 
 void setup() {
   Serial.begin(9600);
@@ -38,24 +43,24 @@ void serialEvent() {
       analogWrite(ENA, v);
       Serial.println();
       Serial.print((reinterpret_cast<const __FlashStringHelper *>(
-# 39 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 44 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                   (__extension__({static const char __c[] __attribute__((__progmem__)) = (
-# 39 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 44 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                   "Estado: "
-# 39 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 44 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                   ); &__c[0];}))
-# 39 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 44 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                   )));
       Serial.println((reinterpret_cast<const __FlashStringHelper *>(
-# 40 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 45 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                     (__extension__({static const char __c[] __attribute__((__progmem__)) = (
-# 40 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 45 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                     "---Giro Horario---"
-# 40 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 45 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                     ); &__c[0];}))
-# 40 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 45 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                     )));
-      break;
+     break;
 
     case '2':
       digitalWrite(IN1, 0x0);
@@ -63,25 +68,25 @@ void serialEvent() {
       analogWrite(ENA, 0);
       Serial.println();
       Serial.print((reinterpret_cast<const __FlashStringHelper *>(
-# 48 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 53 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                   (__extension__({static const char __c[] __attribute__((__progmem__)) = (
-# 48 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 53 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                   "ESTADO: "
-# 48 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 53 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                   ); &__c[0];}))
-# 48 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 53 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                   )));
       Serial.println((reinterpret_cast<const __FlashStringHelper *>(
-# 49 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 54 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                     (__extension__({static const char __c[] __attribute__((__progmem__)) = (
-# 49 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 54 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                     "---Apagado---"
-# 49 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 54 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                     ); &__c[0];}))
-# 49 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 54 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                     )));
       encoder();
-      break;
+     break;
 
     case '3':
       digitalWrite(IN1, 0x0);
@@ -89,136 +94,192 @@ void serialEvent() {
       analogWrite(ENA, v);
       Serial.println();
       Serial.print((reinterpret_cast<const __FlashStringHelper *>(
-# 58 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 63 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                   (__extension__({static const char __c[] __attribute__((__progmem__)) = (
-# 58 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 63 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                   "ESTADO: "
-# 58 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 63 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                   ); &__c[0];}))
-# 58 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 63 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                   )));
       Serial.println((reinterpret_cast<const __FlashStringHelper *>(
-# 59 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 64 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                     (__extension__({static const char __c[] __attribute__((__progmem__)) = (
-# 59 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 64 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                     "---Giro Antihorario---"
-# 59 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 64 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                     ); &__c[0];}))
-# 59 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 64 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                     )));
-      break;
+     break;
 
     case '4':
-      v = 0;
       Serial.println();
       Serial.println((reinterpret_cast<const __FlashStringHelper *>(
-# 65 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 69 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                     (__extension__({static const char __c[] __attribute__((__progmem__)) = (
-# 65 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 69 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                     "CAMBIO DE VELOCIDAD"
-# 65 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 69 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                     ); &__c[0];}))
-# 65 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 69 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                     )));
       Serial.println((reinterpret_cast<const __FlashStringHelper *>(
-# 66 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 70 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                     (__extension__({static const char __c[] __attribute__((__progmem__)) = (
-# 66 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
-                    "Ingrese la velocidad en rad/s:"
-# 66 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 70 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+                    "Ingrese la velocidad en rad/ s:"
+# 70 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                     ); &__c[0];}))
-# 66 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 70 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                     )));
-      while (Serial.available() == 0) {;}
-
-      // Leer la entrada de velocidad hasta que se presione Enter o se llenen 10 caracteres
-      char inputBuffer[10]; // Ajusta el tamaño según tus necesidades
-      size_t bytesRead = Serial.readBytesUntil('\n', inputBuffer, sizeof(inputBuffer) - 1);
-      inputBuffer[bytesRead] = '\0'; // Asegurarse de que la cadena esté terminada correctamente
-      delay(100);
-      while (Serial.available() > 0) { Serial.read(); }
-
-      v = strtol(inputBuffer, nullptr, 10); // Convertir la cadena a un entero
-
-      Serial.print((reinterpret_cast<const __FlashStringHelper *>(
-# 78 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
-                  (__extension__({static const char __c[] __attribute__((__progmem__)) = (
-# 78 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
-                  "Se cambio la velocidad a: "
-# 78 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
-                  ); &__c[0];}))
-# 78 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
-                  )));
+      while(Serial.available () == 0) {;}
+      Serial.readBytesUntil('\n', vel, 3) ;
+      delay (100) ;
+      while(Serial.available ( )>0){Serial.read( );}
+      v = atoi(vel) ;
+      analogWrite(ENA,v);
+      Serial.print ((reinterpret_cast<const __FlashStringHelper *>(
+# 77 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
+                   (__extension__({static const char __c[] __attribute__((__progmem__)) = (
+# 77 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+                   "Se cambio la velocidad a: "
+# 77 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
+                   ); &__c[0];}))
+# 77 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+                   )));
       Serial.println(v);
-      break;
+     break;
 
+    case '5':
+      Serial.println();
+      Serial.println((reinterpret_cast<const __FlashStringHelper *>(
+# 83 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
+                    (__extension__({static const char __c[] __attribute__((__progmem__)) = (
+# 83 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+                    "CAMBIO DE POSICION"
+# 83 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
+                    ); &__c[0];}))
+# 83 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+                    )));
+      Serial.println((reinterpret_cast<const __FlashStringHelper *>(
+# 84 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
+                    (__extension__({static const char __c[] __attribute__((__progmem__)) = (
+# 84 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+                    "Ingrese la posición:"
+# 84 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
+                    ); &__c[0];}))
+# 84 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+                    )));
+      while(Serial.available () == 0) {;}
+      Serial.readBytesUntil('\n', pos, 3) ;
+      delay (100) ;
+      while(Serial.available ( )>0){Serial.read( );}
+      p = atoi(pos);
+      //analogWrite(ENA,v);
+      //if()
+      Serial.print ((reinterpret_cast<const __FlashStringHelper *>(
+# 92 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
+                   (__extension__({static const char __c[] __attribute__((__progmem__)) = (
+# 92 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+                   "Se cambio la posicion a: "
+# 92 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
+                   ); &__c[0];}))
+# 92 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+                   )));
+      Serial.println(p);
+     break;
 
   }
   MENU();
 }
 
 void encoder() {
-  int a = digitalRead(ENC_A);
+  /*int a = digitalRead(ENC_A);
+
   int b = digitalRead(ENC_B);
+
   Serial.print(a * 5);
+
   Serial.print("");
-  Serial.println(b * 5);
+
+  Serial.println(b * 5);*/
+# 107 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+  b = digitalRead(ENC_B);
+  a = digitalRead(ENC_A);
+  if(a != b){
+    if(digitalRead(ENC_B) != a){
+        position++;
+    } else {
+        position--;
+    }
+    b = a;
+  }
 }
 
 void MENU() {
   Serial.println();
   Serial.println((reinterpret_cast<const __FlashStringHelper *>(
-# 97 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 121 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                 (__extension__({static const char __c[] __attribute__((__progmem__)) = (
-# 97 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 121 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                 "   MENU"
-# 97 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 121 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                 ); &__c[0];}))
-# 97 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 121 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                 )));
   Serial.println((reinterpret_cast<const __FlashStringHelper *>(
-# 98 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 122 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                 (__extension__({static const char __c[] __attribute__((__progmem__)) = (
-# 98 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 122 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                 "Presione una opcion 1-3: "
-# 98 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 122 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                 ); &__c[0];}))
-# 98 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 122 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                 )));
   Serial.println((reinterpret_cast<const __FlashStringHelper *>(
-# 99 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 123 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                 (__extension__({static const char __c[] __attribute__((__progmem__)) = (
-# 99 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
-                "1"
-# 99 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 123 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+                "1. Gira Derecha"
+# 123 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                 ); &__c[0];}))
-# 99 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 123 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                 )));
   Serial.println((reinterpret_cast<const __FlashStringHelper *>(
-# 100 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 124 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                 (__extension__({static const char __c[] __attribute__((__progmem__)) = (
-# 100 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
-                "2"
-# 100 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 124 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+                "2. Apagar"
+# 124 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                 ); &__c[0];}))
-# 100 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 124 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                 )));
   Serial.println((reinterpret_cast<const __FlashStringHelper *>(
-# 101 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 125 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                 (__extension__({static const char __c[] __attribute__((__progmem__)) = (
-# 101 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
-                "3"
-# 101 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 125 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+                "3. Gira Izquierda"
+# 125 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                 ); &__c[0];}))
-# 101 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 125 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                 )));
   Serial.println((reinterpret_cast<const __FlashStringHelper *>(
-# 102 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 126 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                 (__extension__({static const char __c[] __attribute__((__progmem__)) = (
-# 102 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
-                "4"
-# 102 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino" 3
+# 126 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+                "4. Cambiar velocidad"
+# 126 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
                 ); &__c[0];}))
-# 102 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+# 126 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+                )));
+  Serial.println((reinterpret_cast<const __FlashStringHelper *>(
+# 127 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
+                (__extension__({static const char __c[] __attribute__((__progmem__)) = (
+# 127 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+                "5. Cambiar posicion"
+# 127 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino" 3
+                ); &__c[0];}))
+# 127 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
                 )));
 }

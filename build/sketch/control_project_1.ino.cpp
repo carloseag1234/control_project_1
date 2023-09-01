@@ -1,25 +1,30 @@
 #include <Arduino.h>
-#line 1 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+#line 1 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
 const int ENC_A = 6;
 const int ENC_B = 5;
 char op = '0';
 char vel []= {' ',' ',' '};
+char pos []= {' ',' ',' '};
 const int IN1 = 2;
-const int IN2 = 3;
-const int ENA = 4;
-int v = 300;
+const int IN2 = 4;
+const int ENA = 3;
+int v = 255;
+int p = 0;
+int position;
+int b;
+int a;
 
-#line 10 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+#line 15 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
 void setup();
-#line 20 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+#line 25 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
 void loop();
-#line 25 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+#line 30 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
 void serialEvent();
-#line 87 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+#line 100 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
 void encoder();
-#line 95 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+#line 119 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
 void MENU();
-#line 10 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+#line 15 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
 void setup() {
   Serial.begin(9600);
   pinMode(ENC_A, INPUT);
@@ -51,7 +56,7 @@ void serialEvent() {
       Serial.println();
       Serial.print(F("Estado: "));
       Serial.println(F("---Giro Horario---"));
-      break;
+     break;
 
     case '2':
       digitalWrite(IN1, LOW);
@@ -61,7 +66,7 @@ void serialEvent() {
       Serial.print(F("ESTADO: "));
       Serial.println(F("---Apagado---"));
       encoder();
-      break;
+     break;
 
     case '3':
       digitalWrite(IN1, LOW);
@@ -70,47 +75,67 @@ void serialEvent() {
       Serial.println();
       Serial.print(F("ESTADO: "));
       Serial.println(F("---Giro Antihorario---"));
-      break;
+     break;
 
     case '4':
-      v = 0;
       Serial.println();
-      Serial.println(F("CAMBIO DE VELOCIDAD"));
-      Serial.println(F("Ingrese la velocidad en rad/s:"));
-      while (Serial.available() == 0) {;}
-      
-      // Leer la entrada de velocidad hasta que se presione Enter o se llenen 10 caracteres
-      char inputBuffer[10]; // Ajusta el tamaño según tus necesidades
-      size_t bytesRead = Serial.readBytesUntil('\n', inputBuffer, sizeof(inputBuffer) - 1);
-      inputBuffer[bytesRead] = '\0'; // Asegurarse de que la cadena esté terminada correctamente
-      delay(100);
-      while (Serial.available() > 0) { Serial.read(); }
-      
-      v = strtol(inputBuffer, nullptr, 10); // Convertir la cadena a un entero
-      
-      Serial.print(F("Se cambio la velocidad a: "));
+      Serial.println(F ( "CAMBIO DE VELOCIDAD"));
+      Serial.println(F ("Ingrese la velocidad en rad/ s:"));
+      while(Serial.available () == 0) {;}
+      Serial.readBytesUntil('\n', vel, 3) ;
+      delay (100) ;
+      while(Serial.available ( )>0){Serial.read( );} 
+      v = atoi(vel) ;
+      analogWrite(ENA,v);
+      Serial.print (F("Se cambio la velocidad a: "));
       Serial.println(v);
-      break;
+     break;
 
-    
+    case '5':
+      Serial.println();
+      Serial.println(F ( "CAMBIO DE POSICION"));
+      Serial.println(F ("Ingrese la posición:"));
+      while(Serial.available () == 0) {;}
+      Serial.readBytesUntil('\n', pos, 3) ;
+      delay (100) ;
+      while(Serial.available ( )>0){Serial.read( );} 
+      p = atoi(pos);
+      //analogWrite(ENA,v);
+      //if()
+      Serial.print (F("Se cambio la posicion a: "));
+      Serial.println(p);
+     break;
+
   }
   MENU();
 }
 
 void encoder() {
-  int a = digitalRead(ENC_A);
+  /*int a = digitalRead(ENC_A);
   int b = digitalRead(ENC_B);
   Serial.print(a * 5);
   Serial.print("");
-  Serial.println(b * 5);
+  Serial.println(b * 5);*/
+  
+  b = digitalRead(ENC_B);
+  a = digitalRead(ENC_A);
+  if(a != b){
+    if(digitalRead(ENC_B) != a){
+        position++;
+    } else {
+        position--;
+    }
+    b = a;
+  }
 }
 
 void MENU() {
   Serial.println();
   Serial.println(F("   MENU"));
   Serial.println(F("Presione una opcion 1-3: "));
-  Serial.println(F("1"));
-  Serial.println(F("2"));
-  Serial.println(F("3"));
-  Serial.println(F("4"));
+  Serial.println(F("1. Gira Derecha"));
+  Serial.println(F("2. Apagar"));
+  Serial.println(F("3. Gira Izquierda"));
+  Serial.println(F("4. Cambiar velocidad"));
+  Serial.println(F("5. Cambiar posicion"));
 }

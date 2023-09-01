@@ -2,10 +2,15 @@ const int ENC_A = 6;
 const int ENC_B = 5;
 char op = '0';
 char vel []= {' ',' ',' '};
+char pos []= {' ',' ',' '};
 const int IN1 = 2;
 const int IN2 = 4;
 const int ENA = 3;
 int v = 255;
+int p = 0;
+int position;
+int b;
+int a;
 
 void setup() {
   Serial.begin(9600);
@@ -59,7 +64,7 @@ void serialEvent() {
       Serial.println(F("---Giro Antihorario---"));
      break;
 
-     case '4':
+    case '4':
       Serial.println();
       Serial.println(F ( "CAMBIO DE VELOCIDAD"));
       Serial.println(F ("Ingrese la velocidad en rad/ s:"));
@@ -73,16 +78,42 @@ void serialEvent() {
       Serial.println(v);
      break;
 
+    case '5':
+      Serial.println();
+      Serial.println(F ( "CAMBIO DE POSICION"));
+      Serial.println(F ("Ingrese la posición:"));
+      while(Serial.available () == 0) {;}
+      Serial.readBytesUntil('\n', pos, 3) ;
+      delay (100) ;
+      while(Serial.available ( )>0){Serial.read( );} 
+      p = atoi(pos);
+      //analogWrite(ENA,v);
+      //if()
+      Serial.print (F("Se cambio la posicion a: "));
+      Serial.println(p);
+     break;
+
   }
   MENU();
 }
 
 void encoder() {
-  int a = digitalRead(ENC_A);
+  /*int a = digitalRead(ENC_A);
   int b = digitalRead(ENC_B);
-  Serial.print(a*5);
+  Serial.print(a * 5);
   Serial.print("");
-  Serial.println(b*5);
+  Serial.println(b * 5);*/
+  
+  b = digitalRead(ENC_B);
+  a = digitalRead(ENC_A);
+  if(a != b){
+    if(digitalRead(ENC_B) != a){
+        position++;
+    } else {
+        position--;
+    }
+    b = a;
+  }
 }
 
 void MENU() {
@@ -93,4 +124,5 @@ void MENU() {
   Serial.println(F("2. Apagar"));
   Serial.println(F("3. Gira Izquierda"));
   Serial.println(F("4. Cambiar velocidad"));
+  Serial.println(F("5. Cambiar posicion"));
 }
