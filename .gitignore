@@ -1,3 +1,5 @@
 
 #.vscode carpet
 .vscode
+
+build/sketch/.vscode

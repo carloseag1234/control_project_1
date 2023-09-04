@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#line 1 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+#line 1 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
 const int ENC_A = 6;
 const int ENC_B = 5;
 char op = '0';
@@ -14,17 +14,17 @@ int position;
 int b;
 int a;
 
-#line 15 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+#line 15 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
 void setup();
-#line 25 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+#line 25 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
 void loop();
-#line 30 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+#line 30 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
 void serialEvent();
-#line 100 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+#line 100 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
 void encoder();
-#line 119 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+#line 113 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
 void MENU();
-#line 15 "C:\\Users\\serfa\\Documents\\1. FG\\Escuela\\Reto Control\\control_project_1\\control_project_1.ino"
+#line 15 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
 void setup() {
   Serial.begin(9600);
   pinMode(ENC_A, INPUT);
@@ -110,13 +110,7 @@ void serialEvent() {
   MENU();
 }
 
-void encoder() {
-  /*int a = digitalRead(ENC_A);
-  int b = digitalRead(ENC_B);
-  Serial.print(a * 5);
-  Serial.print("");
-  Serial.println(b * 5);*/
-  
+void encoder() {  
   b = digitalRead(ENC_B);
   a = digitalRead(ENC_A);
   if(a != b){
