@@ -97,13 +97,7 @@ void serialEvent() {
   MENU();
 }
 
-void encoder() {
-  /*int a = digitalRead(ENC_A);
-  int b = digitalRead(ENC_B);
-  Serial.print(a * 5);
-  Serial.print("");
-  Serial.println(b * 5);*/
-  
+void encoder() {  
   b = digitalRead(ENC_B);
   a = digitalRead(ENC_A);
   if(a != b){
