@@ -2,5 +2,6 @@
 {
     "sketch": "control_project_1.ino",
     "output": "build",
-    "board": "arduino:avr:uno"
+    "board": "arduino:avr:uno",
+    "port": "COM5"
 }
