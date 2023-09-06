@@ -11,7 +11,7 @@ int v = 50;
 int vu=0;
 bool sentido;
 const float maxSteps = 341.2;
-volatile int ISRCounter = 0;
+volatile int ProcessPoint = 0;
 int counter = 0;
 int error=0;
 
@@ -29,9 +29,9 @@ void setup()
 
 void loop() {
       analogWrite(ENA,v);
-      error=vu-ISRCounter;
+      error=vu-ProcessPoint;
       Serial.println( vu);
-      Serial.println(ISRCounter);
+      Serial.println(ProcessPoint);
       if(error<2){
         digitalWrite(IN1, 0x1);
           digitalWrite(IN2, 0x0);
@@ -69,11 +69,11 @@ void doEncodeA()
 {
     if (digitalRead(ENC_A) == digitalRead(ENC_B))
     {
-      ISRCounter++;
+      ProcessPoint++;
     }
     else
     {
-      ISRCounter--;
+      ProcessPoint--;
     }
 }
 
