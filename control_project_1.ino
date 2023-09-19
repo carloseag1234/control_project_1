@@ -8,7 +8,7 @@
   const int ENA = 6;   //PWM Pin
 
 /*----Global Variables----*/
-  int v = 50;                     //PWM speed value
+  int v = 125;                     //PWM speed value
   const float maxSteps = 341.2;   //PPR(Pulse Per Revolution) Resolution 
   volatile int ProcessCounter = 0;
   float SetPoint=0;
@@ -44,24 +44,28 @@ void loop() {
       error=SetPoint-ProcessCounter;
 
       /*---Set Point and Process Counter Visualaizer---*/
-      Serial.println( SetPoint);
-      Serial.println(ProcessCounter);
+      // Serial.println( SetPoint);
+      // Serial.println(ProcessCounter);
+      Serial.println(error);
       
       /*--Reach Set Point--*/
-      if(error<2)
-      {
-        digitalWrite(IN1, HIGH);
-        digitalWrite(IN2, LOW);
-      } 
-      if(error>-2)
+      if(error<=5 && error>=-5)
       {
         digitalWrite(IN1, LOW);
-        digitalWrite(IN2, HIGH);
-      }
-      if(error>=-2 && error<=2)
+        digitalWrite(IN2, LOW);        
+
+      }else	
       {
-        digitalWrite(IN1, LOW);
-        digitalWrite(IN2, LOW);
+        if(error<-2)
+        {
+          digitalWrite(IN1, HIGH);
+          digitalWrite(IN2, LOW);
+        } 
+        if(error>2)
+        {
+          digitalWrite(IN1, LOW);
+          digitalWrite(IN2, HIGH);
+        }
       }
     
       
@@ -92,6 +96,6 @@ void serialEvent() {
   while(Serial.available () == 0) {;}
       vueltas = Serial.readStringUntil('\n');
       SetPoint = (String(vueltas).toFloat()); 
-      SetPoint = SetPoint*maxSteps;
+      SetPoint = SetPoint*maxSteps/8;
 
 }

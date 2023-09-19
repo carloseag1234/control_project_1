@@ -5,7 +5,7 @@
   "customBuildProperties": "",
   "fqbn": "arduino:avr:uno",
   "hardwareFolders": "C:\\Users\\carlo\\AppData\\Local\\Arduino15\\packages",
-  "otherLibrariesFolders": "C:\\Users\\carlo\\OneDrive\\Documentos\\Arduino\\libraries",
+  "otherLibrariesFolders": "C:\\Users\\carlo\\Documents\\Arduino\\libraries",
   "runtime.ide.version": "10607",
   "sketchLocation": "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1"
 }
