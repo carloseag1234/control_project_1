@@ -13,6 +13,18 @@
   volatile int ProcessCounter = 0; 
   float SetPoint=0;
   float error=0;
+  
+  float error1 = 0;
+  float error2 = 0;
+  float control = 0;
+  float control1 = 0;
+  long pastMillis = 0;
+  
+  int kp = 1;
+  int kd = 1;
+  int ki = 0.02;
+  int tm = 0.02;
+
 
 // Serial input for Revolutions number
   String vueltas;
@@ -41,8 +53,12 @@ void loop() {
       analogWrite(ENA,v);
 
       /*----Process to Set Point Error----*/
-      error=SetPoint-ProcessCounter;
-      
+      error =SetPoint-ProcessCounter;
+      control=control1 + (kp + (kd/tm)) *error + (-kp + (ki*tm) - 2*(kd/tm))* error1 + ((kd/tm)*error2);
+      control1 = control;
+      error2 = error1;
+      error1 = error;
+
       /*--Reach Set Point--*/
       if(error<=5 && error>=-5)
       {
@@ -76,4 +92,4 @@ void serialEvent() {
       SetPoint = (String(vueltas).toFloat()); 
       SetPoint = SetPoint*maxSteps/8;
 
-}
+};
