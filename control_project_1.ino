@@ -9,10 +9,18 @@
 
 /*----Global Variables----*/
   int v = 125;                     //PWM speed value
+  float kp = 1;
+  float kd = 5;
+  float ki = 0.001;
+  float ts = 0.02;
   const float maxSteps = 341.2;    //PPR(Pulse Per Revolution) Resolution 
   volatile int ProcessCounter = 0; 
   float SetPoint=0;
+  float cv=0;
+  float cvm1=0;
   float error=0;
+  float errorm1=0;
+  float errorm2=0;
 
 // Serial input for Revolutions number
   String vueltas;
@@ -76,4 +84,13 @@ void serialEvent() {
       SetPoint = (String(vueltas).toFloat()); 
       SetPoint = SetPoint*maxSteps/8;
 
+}
+
+float ControlValue(){
+  cvm1 = cv;
+  cv = cvm1+(kp+(kd/ts))*error+(-kp+ki*ts-2*(kd/ts))*errorm1+(kd/ts)*errorm2;
+  errorm2 = errorm1;
+  errorm1 = error;
+  error = SetPoint - ProcessCounter;
+  return cv;
 }
