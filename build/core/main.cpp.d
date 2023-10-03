@@ -1,5 +1,5 @@
-C:\Users\serfa\Documents\1School\control_project_1\build\sketch\control_project_1.ino.cpp.o: \
- C:\Users\serfa\Documents\1School\control_project_1\build\sketch\control_project_1.ino.cpp \
+C:\Users\serfa\Documents\1School\control_project_1\build\core\main.cpp.o: \
+ C:\Users\serfa\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.8.6\cores\arduino\main.cpp \
  C:\Users\serfa\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.8.6\cores\arduino/Arduino.h \
  C:\Users\serfa\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.8.6\cores\arduino/binary.h \
  C:\Users\serfa\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.8.6\cores\arduino/WCharacter.h \
