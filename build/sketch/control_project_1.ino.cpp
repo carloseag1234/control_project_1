@@ -11,16 +11,16 @@
 
 /*----Global Variables----*/
   unsigned long timing;            //time
-  int v = 125;                     //PWM speed value
-  float kp = 1;                    //Control Gains k
-  float kd = 5;
-  float ki = 0.001;
+  int v = 0;                     //PWM speed value
+  float kp = 5;                    //Control Gains k
+  float kd = 0.00000001;
+  float ki = 20;
   float ts = 0.02;                 //Sample time
   const float maxSteps = 341.2;    //PPR(Pulse Per Revolution) Resolution 
   volatile int ProcessCounter = 0; 
   float SetPoint=0;
-  float cv=0;                      //Control Value
-  float cvm1=0;                    //Control Value minus one
+  int cv=0;                      //Control Value
+  int cvm1=0;                    //Control Value minus one
   float error=0;                   
   float errorm1=0;                 //Error minus one
   float errorm2=0;                 //Error minus two
@@ -33,12 +33,12 @@
 void setup();
 #line 48 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
 void loop();
-#line 80 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+#line 76 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
 void doEncodeA();
-#line 86 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+#line 82 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
 void serialEvent();
-#line 94 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
-float ControlValue();
+#line 90 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
+void ControlValue();
 #line 30 "C:\\Users\\carlo\\Desktop\\gitProject\\control_project_1\\control_project_1.ino"
 void setup() 
 {
@@ -55,20 +55,15 @@ void setup()
   pinMode(ENA, OUTPUT);
 
   /*----Serial Instrucction----*/
-  Serial.println( ("Ingrese las vueltas deseadas :"));
+  Serial.println( ("Ingrese la distancia en milimetros :"));
 }
 
 void loop() {
     
     if(millis() > timing + ts*1000){
         timing = millis();
-        v=ControlValue();
-        if (v>255) v = 255;
+        ControlValue();
     }
-
-      /*----Speed initialaizer----*/
-      analogWrite(ENA,v);
-      
       /*--Reach Set Point--*/
       if(error<=5 && error>=-5)
       {
@@ -86,7 +81,8 @@ void loop() {
           digitalWrite(IN1, LOW);
           digitalWrite(IN2, HIGH);
         }
-      }      
+      } 
+         
   }
 
 /*----Process Counter Updater----*/
@@ -104,12 +100,19 @@ void serialEvent() {
 
 }
 /*-------Control Value Setter------*/
-float ControlValue(){
-  cvm1 = cv;
-  cv = cvm1+(kp+(kd/ts))*error+(-kp+ki*ts-2*(kd/ts))*errorm1+(kd/ts)*errorm2;
+void ControlValue(){
   errorm2 = errorm1;
   errorm1 = error;
   error = SetPoint - ProcessCounter;
-  return cv;
+  
+  float a = (kp+(kd/ts))*error;
+  float b = ((ki*ts)-kp-(2*kd/ts))*errorm1;
+  float c = (kd/ts)*errorm2;
+
+  cvm1 = v;
+  cv =cvm1+ a+b+c;
+  v=abs(cv);
+  if (v>=255){v=255;}
+  analogWrite(ENA,v);
 }
 
