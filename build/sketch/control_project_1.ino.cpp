@@ -12,9 +12,9 @@
 /*----Global Variables----*/
   unsigned long timing;            //time
   int v = 0;                     //PWM speed value
-  float kp = 5;                    //Control Gains k
-  float kd = 0.00000001;
-  float ki = 20;
+  float kp =  5.349;                    //Control Gains k
+  float kd = 0;
+  float ki = 6.774;
   float ts = 0.02;                 //Sample time
   const float maxSteps = 341.2;    //PPR(Pulse Per Revolution) Resolution 
   volatile int ProcessCounter = 0; 
@@ -113,6 +113,7 @@ void ControlValue(){
   cv =cvm1+ a+b+c;
   v=abs(cv);
   if (v>=255){v=255;}
+  if(v<=30){v=90;}
   analogWrite(ENA,v);
 }
 
